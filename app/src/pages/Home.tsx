@@ -297,23 +297,29 @@ export default function Home() {
           </div>
         </div>
 
-        {/* 触屏控制按钮（支持按住连发） */}
-        <div className="flex items-center gap-2 md:hidden">
-          <HoldButton className="h-12 w-12" onFire={() => move(-1)}>
-            <ArrowLeft />
-          </HoldButton>
-          <HoldButton className="h-12 w-12" onFire={rotatePiece} repeat={false}>
-            <RotateCw />
-          </HoldButton>
-          <HoldButton className="h-12 w-12" onFire={() => move(1)}>
-            <ArrowRight />
-          </HoldButton>
-          <HoldButton className="h-12 w-12" onFire={softDrop} delay={120} interval={45}>
-            <ArrowDown />
-          </HoldButton>
-          <HoldButton className="h-12 w-12" onFire={hardDrop} repeat={false}>
-            <ChevronsDown />
-          </HoldButton>
+        {/* 触屏控制：左手旋转/硬降，右手移动（支持按住连发） */}
+        <div className="flex w-full max-w-[420px] items-center justify-between md:hidden">
+          {/* 左手区：变化类 */}
+          <div className="flex items-center gap-3">
+            <HoldButton className="h-16 w-16" onFire={rotatePiece} repeat={false}>
+              <RotateCw className="h-6 w-6" />
+            </HoldButton>
+            <HoldButton className="h-16 w-16" onFire={hardDrop} repeat={false}>
+              <ChevronsDown className="h-6 w-6" />
+            </HoldButton>
+          </div>
+          {/* 右手区：移动类 */}
+          <div className="flex items-center gap-3">
+            <HoldButton className="h-16 w-16" onFire={() => move(-1)}>
+              <ArrowLeft className="h-6 w-6" />
+            </HoldButton>
+            <HoldButton className="h-16 w-16" onFire={softDrop} delay={120} interval={45}>
+              <ArrowDown className="h-6 w-6" />
+            </HoldButton>
+            <HoldButton className="h-16 w-16" onFire={() => move(1)}>
+              <ArrowRight className="h-6 w-6" />
+            </HoldButton>
+          </div>
         </div>
 
         {/* 键盘说明 */}
