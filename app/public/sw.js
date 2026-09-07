@@ -1,12 +1,22 @@
-/* 俄罗斯方块 PWA Service Worker：安装时预缓存，运行时缓存优先 */
-const CACHE = 'tetris-v1'
-const PRECACHE = ['./', './index.html', './manifest.webmanifest', './favicon.svg']
+/* 俄罗斯方块 PWA Service Worker
+ * 策略：一律网络优先（保证更新及时），离线时回退缓存（保证离线可玩）
+ * 静态文件，无需构建期注入
+ */
+const CACHE = 'tetris-v2'
+
+async function putCache(request, response) {
+  if (response.ok) {
+    const cache = await caches.open(CACHE)
+    await cache.put(request, response.clone())
+  }
+  return response
+}
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches
       .open(CACHE)
-      .then((cache) => cache.addAll(PRECACHE))
+      .then((cache) => cache.addAll(['./', './index.html', './manifest.webmanifest', './favicon.svg']))
       .then(() => self.skipWaiting())
   )
 })
@@ -23,18 +33,11 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET' || !event.request.url.startsWith(self.location.origin)) return
   event.respondWith(
-    caches.match(event.request, { ignoreSearch: true }).then(
-      (hit) =>
-        hit ||
-        fetch(event.request)
-          .then((res) => {
-            if (res.ok) {
-              const copy = res.clone()
-              caches.open(CACHE).then((cache) => cache.put(event.request, copy))
-            }
-            return res
-          })
-          .catch(() => caches.match('./index.html'))
-    )
+    fetch(event.request)
+      .then((res) => putCache(event.request, res))
+      .catch(async () => {
+        const hit = await caches.match(event.request, { ignoreSearch: true })
+        return hit || (await caches.match('./index.html'))
+      })
   )
 })
