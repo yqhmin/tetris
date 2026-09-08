@@ -164,11 +164,30 @@ export default function Home() {
   const nextShape = NEXT_SHAPES[next]
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-950 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-950/60 via-slate-950 to-slate-950 p-4 text-white select-none">
+    <div className="flex h-dvh items-center justify-center overflow-hidden bg-slate-950 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-950/60 via-slate-950 to-slate-950 p-2 text-white select-none md:p-4">
       <div className="flex flex-col items-center gap-2 md:gap-4">
-        <h1 className="bg-gradient-to-r from-cyan-400 via-fuchsia-400 to-amber-300 bg-clip-text text-2xl font-black tracking-widest text-transparent md:text-3xl">
-          俄罗斯方块
-        </h1>
+        {/* 标题行：移动端左右各放暂停/音效小按钮，节省一行高度 */}
+        <div className="flex items-center gap-4">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={status === 'playing' ? togglePause : start}
+            className="h-9 w-9 border-slate-600 bg-slate-800/60 text-slate-200 md:hidden"
+          >
+            {status === 'playing' ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+          </Button>
+          <h1 className="bg-gradient-to-r from-cyan-400 via-fuchsia-400 to-amber-300 bg-clip-text text-2xl font-black tracking-widest text-transparent md:text-3xl">
+            俄罗斯方块
+          </h1>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={toggleSound}
+            className="h-9 w-9 border-slate-600 bg-slate-800/60 text-slate-200 md:hidden"
+          >
+            {soundOn ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4" />}
+          </Button>
+        </div>
 
         <div className="flex flex-col items-center gap-3 md:flex-row md:items-start md:gap-4">
           {/* 游戏区 */}
@@ -267,7 +286,7 @@ export default function Home() {
             <Button
               variant="outline"
               onClick={status === 'playing' ? togglePause : start}
-              className="gap-2 border-slate-600 bg-slate-800/60 px-3 text-slate-200 hover:bg-slate-700 md:px-4"
+              className="hidden gap-2 border-slate-600 bg-slate-800/60 px-3 text-slate-200 hover:bg-slate-700 md:flex md:px-4"
             >
               {status === 'playing' ? (
                 <>
@@ -282,7 +301,7 @@ export default function Home() {
             <Button
               variant="outline"
               onClick={toggleSound}
-              className="gap-2 border-slate-600 bg-slate-800/60 px-3 text-slate-200 hover:bg-slate-700 md:px-4"
+              className="hidden gap-2 border-slate-600 bg-slate-800/60 px-3 text-slate-200 hover:bg-slate-700 md:flex md:px-4"
             >
               {soundOn ? (
                 <>
@@ -301,25 +320,25 @@ export default function Home() {
         <div className="flex w-full max-w-[420px] items-end justify-between md:hidden">
           {/* 左手区：经典十字方向键（倒 T 形） */}
           <div className="grid grid-cols-3 gap-[4px]">
-            <HoldButton className="h-14 w-14" onFire={() => move(-1)}>
+            <HoldButton className="h-12 w-12" onFire={() => move(-1)}>
               <ArrowLeft className="h-6 w-6" />
             </HoldButton>
             <div />
-            <HoldButton className="h-14 w-14" onFire={() => move(1)}>
+            <HoldButton className="h-12 w-12" onFire={() => move(1)}>
               <ArrowRight className="h-6 w-6" />
             </HoldButton>
             <div />
-            <HoldButton className="h-14 w-14" onFire={softDrop} delay={120} interval={45}>
+            <HoldButton className="h-12 w-12" onFire={softDrop} delay={120} interval={45}>
               <ArrowDown className="h-6 w-6" />
             </HoldButton>
             <div />
           </div>
           {/* 右手区：变化类（保持不变） */}
           <div className="flex items-center gap-3">
-            <HoldButton className="h-16 w-16" onFire={rotatePiece} repeat={false}>
+            <HoldButton className="h-14 w-14" onFire={rotatePiece} repeat={false}>
               <RotateCw className="h-6 w-6" />
             </HoldButton>
-            <HoldButton className="h-16 w-16" onFire={hardDrop} repeat={false}>
+            <HoldButton className="h-14 w-14" onFire={hardDrop} repeat={false}>
               <ChevronsDown className="h-6 w-6" />
             </HoldButton>
           </div>

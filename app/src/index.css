@@ -91,9 +91,9 @@
   animation: row-flash 0.12s ease-in-out infinite;
 }
 
-/* 棋盘尺寸：移动端按视口高度约束，保证按钮一屏内可见 */
+/* 棋盘尺寸：移动端按剩余视口高度精确计算，保证整页一屏无滚动条 */
 .tetris-board {
-  width: min(88vw, 30vh);
+  width: min(86vw, calc((100dvh - 260px) / 2));
 }
 @media (min-width: 768px) {
   .tetris-board {
