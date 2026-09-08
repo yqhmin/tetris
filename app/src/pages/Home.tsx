@@ -297,18 +297,9 @@ export default function Home() {
           </div>
         </div>
 
-        {/* 触屏控制：左手旋转/硬降，右手移动（支持按住连发） */}
+        {/* 触屏控制：左手移动，右手旋转/硬降（支持按住连发） */}
         <div className="flex w-full max-w-[420px] items-center justify-between md:hidden">
-          {/* 左手区：变化类 */}
-          <div className="flex items-center gap-3">
-            <HoldButton className="h-16 w-16" onFire={rotatePiece} repeat={false}>
-              <RotateCw className="h-6 w-6" />
-            </HoldButton>
-            <HoldButton className="h-16 w-16" onFire={hardDrop} repeat={false}>
-              <ChevronsDown className="h-6 w-6" />
-            </HoldButton>
-          </div>
-          {/* 右手区：移动类 */}
+          {/* 左手区：移动类 */}
           <div className="flex items-center gap-3">
             <HoldButton className="h-16 w-16" onFire={() => move(-1)}>
               <ArrowLeft className="h-6 w-6" />
@@ -318,6 +309,15 @@ export default function Home() {
             </HoldButton>
             <HoldButton className="h-16 w-16" onFire={() => move(1)}>
               <ArrowRight className="h-6 w-6" />
+            </HoldButton>
+          </div>
+          {/* 右手区：变化类 */}
+          <div className="flex items-center gap-3">
+            <HoldButton className="h-16 w-16" onFire={rotatePiece} repeat={false}>
+              <RotateCw className="h-6 w-6" />
+            </HoldButton>
+            <HoldButton className="h-16 w-16" onFire={hardDrop} repeat={false}>
+              <ChevronsDown className="h-6 w-6" />
             </HoldButton>
           </div>
         </div>
