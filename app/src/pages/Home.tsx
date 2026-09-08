@@ -297,21 +297,24 @@ export default function Home() {
           </div>
         </div>
 
-        {/* 触屏控制：左手移动，右手旋转/硬降（支持按住连发） */}
-        <div className="flex w-full max-w-[420px] items-center justify-between md:hidden">
-          {/* 左手区：移动类 */}
-          <div className="flex items-center gap-3">
-            <HoldButton className="h-16 w-16" onFire={() => move(-1)}>
+        {/* 触屏控制：左手十字方向键，右手旋转/硬降（支持按住连发） */}
+        <div className="flex w-full max-w-[420px] items-end justify-between md:hidden">
+          {/* 左手区：经典十字方向键（倒 T 形） */}
+          <div className="grid grid-cols-3 gap-[4px]">
+            <HoldButton className="h-14 w-14" onFire={() => move(-1)}>
               <ArrowLeft className="h-6 w-6" />
             </HoldButton>
-            <HoldButton className="h-16 w-16" onFire={softDrop} delay={120} interval={45}>
-              <ArrowDown className="h-6 w-6" />
-            </HoldButton>
-            <HoldButton className="h-16 w-16" onFire={() => move(1)}>
+            <div />
+            <HoldButton className="h-14 w-14" onFire={() => move(1)}>
               <ArrowRight className="h-6 w-6" />
             </HoldButton>
+            <div />
+            <HoldButton className="h-14 w-14" onFire={softDrop} delay={120} interval={45}>
+              <ArrowDown className="h-6 w-6" />
+            </HoldButton>
+            <div />
           </div>
-          {/* 右手区：变化类 */}
+          {/* 右手区：变化类（保持不变） */}
           <div className="flex items-center gap-3">
             <HoldButton className="h-16 w-16" onFire={rotatePiece} repeat={false}>
               <RotateCw className="h-6 w-6" />
